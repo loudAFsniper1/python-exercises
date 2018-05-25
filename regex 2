@@ -1,0 +1,48 @@
+Problem 1:
+
+Create a  RegEx function for a username. The username must contain the first name, an underscore and the year they were born. 
+
+(check that the first part is a string, then check for underscore and then numbers.)
+
+Example:
+George Martin  born in 1968.
+
+TEST THIS:
+george_68
+
+Use the following function name.
+function userName(str)
+
+
+Problem 2:
+
+Create a  RegEx function that searches for a price and outputs the data.
+
+Example:
+The raspberry pi cost $35 at the store.
+
+Output:
+
+$35
+
+
+Use the following function name.
+function searchPrice(str)
+
+
+function userName(str){
+  var name = /^[a-z]+_[0-9]{2}$/i;
+  var x = name.test(str);
+  return x;
+}
+str = 'george_68';
+console.log(userName(str));
+
+
+function searchPrice(str){
+  var price = /\$\d+/
+  var x = price.exec(str);
+  return x[0];
+}
+ 
+console.log(searchPrice('The raspberry pi cost $35 at the store.'));
