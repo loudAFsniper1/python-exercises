@@ -1,0 +1,174 @@
+// html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <script src="index.js"></script>
+  </body>
+</html>
+// html
+
+window.onload = function(){
+  canvas = document.createElement('canvas');
+  canvas.width = 640;
+  canvas.height = 480;
+  canvas.width = window.innerWidth - 20;
+  canvas.height = window.innerHeight - 20;
+  // addint the canvas to HTML
+  document.body.appendChild(canvas);
+  pen = canvas.getContext('2d');
+  // scan for keyboard inputs
+  //document.addEventListener('keydown',keyPush);
+  var fps = 600;
+  setInterval(update,1000/fps);
+  // enemy spawn rate
+  setInterval(spawn,200);
+
+  document.addEventListener('mousemove',mouseMoveHandler,false);
+  document.addEventListener('mousedown', mouseClickerHandler,false);
+  //touch screen
+  document.addEventListener("touchmove", move, false);
+  document.addEventListener("touchstart", shoot, false);
+  //cool imagaes
+  spaceship = new Image();
+spaceship.src = "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTE5NDg0MDU0ODM1NzkxMzc1/billy-mays-wc-481592-1-402.jpg"
+ 
+};
+//player stats
+player_x = player_y = 575;
+player_speed = 7;
+player_dim = 50;
+
+// enemy stats
+enemy_list = [];
+enemy_speed = 3;
+enemy_dim = 25;
+
+//shot stats
+shots_list = [];
+shots_speed = 15;
+shots_dim = 30;
+//lives 
+lives = 5;
+
+//score 
+score = 0
+
+
+function update(){
+  pen.fillStyle = 'black';
+  pen.fillRect(0,0,canvas.width,canvas.height);
+
+  pen.drawImage(spaceship,
+  player_x - player_dim / 2,
+  player_y - player_dim / 2,
+  player_dim,
+  player_dim);
+
+  
+
+
+  // drawing our shots list
+  pen.fillStyle = 'lime';
+  for (var s = 0;s<shots_list.length;s++){
+      shots_list[s].y -= shots_speed;
+      pen.fillRect(shots_list[s].x - shots_dim/2,shots_list[s].y - shots_dim/2, shots_dim,shots_dim);
+    for (var e = enemy_list.length-1;e>=0;e--){
+      // Calculate the distance between the shots and enemies
+      var diff_x = Math.abs(enemy_list[e].x - shots_list[s].x);
+      var diff_y = Math.abs(enemy_list[e].y - shots_list[s].y);
+      var dist = Math.sqrt(diff_x * diff_x + diff_y * diff_y);
+      // detects if a shot hits the enemy
+      if (dist < (shots_dim + enemy_dim) / 2) {
+        enemy_list.splice(e, 1);
+        score += 10;
+      }
+    }
+  }
+  //drawing our enemy list
+  pen.fillStyle = 'red';
+  for (var e = 0; e < enemy_list.length;e++){
+    enemy_list[e].y += enemy_speed;
+    pen.fillRect(enemy_list[e].x - enemy_dim / 2,enemy_list[e].y - enemy_dim / 2,enemy_dim,enemy_dim);
+    //calculate the distance
+    var diff_x = Math.abs(enemy_list[e].x - player_x);
+    var diff_y = Math.abs(enemy_list[e].y - player_y);
+    var dist = Math.sqrt(diff_x * diff_x + diff_y * diff_y);
+    //detect if an enemy hits our hero?
+    if (dist<(player_dim+enemy_dim)/2){
+      //clear the stats and reset the player if he gets hits SNAKE HELPER
+      shots_list = [];
+      enemy_list = [];
+      lives -= 1;
+      player_x =player_y = 575;
+
+      break;
+    }
+  }
+  pen.font = '15px arial';
+  pen.fillStyle = 'white';
+  pen.fillText('lives: '+lives,20,20);
+  
+  pen.font = '15 Atlantico';
+  pen.fillStyle = 'white';
+  pen.fillText('score: '+score,20,40);
+
+
+  //if our hero dies
+  if (lives <= 0){
+    pen.fillStyle="black";
+    pen.fillRect(0,0,canvas.width,canvas.height);
+    pen.font = '30px Beyno';
+    pen.fillStyle = 'white';
+    pen.fillText('GAME OVER',200,200);
+    pen.fillText('TOTAL SCORE! ---> '+score,200,300)
+  }
+
+}
+
+
+
+  //spawn each enemy spawn
+function spawn() {
+  enemy_list.push({x:canvas.width*Math.random(),y:0});
+//update each frame
+
+}
+
+//function keyPush(evt) {
+  //switch(evt.keyCode) {
+    //case 32: // space bar
+      //shots_list.push({ x: player_x, y: player_y });
+      //break;
+    //case 37: // left
+      //player_x -= player_speed;
+     // break;
+    //case 38: // up
+      //player_y -= player_speed;
+      //break;
+    //case 39: // right
+      //player_x += player_speed;
+     // break;
+    //case 40: // down
+     // player_y += player_speed;
+     // break;
+    
+ // }
+//}
+
+function mouseMoveHandler(e) {
+  player_x = e.clientX
+
+}
+
+function mouseClickerHandler(e) {
+  //this checks for the left button
+  if (e.button == 0){
+    shots_list.push({y:player_y,x:player_x});
+  }
+}
