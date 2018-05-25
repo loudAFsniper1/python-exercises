@@ -1,0 +1,88 @@
+import turtle
+import time
+turtle.speed(0)
+potato = int(input("Type a random number from 1 to 6 to get a drawing "))
+
+if potato == 1:
+  turtle.shape("square")
+  turtle.color("green")
+  for x in range(130):
+    turtle.forward(x+1)
+    turtle.left(45/(x+1))
+    turtle.color("orange")
+    turtle.forward(x+1)
+    turtle.right(45/(x+1))
+    turtle.color("yellow")
+    turtle.forward(x)
+    turtle.right(90)
+    turtle.color("green")
+elif potato == 2:
+  for x in range(100):
+    turtle.forward(x+1)
+    turtle.left(45*(x-1))
+    turtle.forward(x+1)
+    turtle.right(45*(x-1))
+    turtle.forward(x)
+    turtle.right(90)
+  turtle.penup()
+  turtle.setpos(0,0)
+  turtle.down()
+  for x in range(100):
+    turtle.forward(x-1)
+    turtle.left(45*(x+1))
+    turtle.forward(x-1)
+    turtle.right(45*(x+1))
+    turtle.forward(x)
+    turtle.right(90)
+elif potato == 3:
+  for x in range(100):
+    turtle.forward(x)
+    turtle.left(130-x)
+    turtle.forward(x)
+    turtle.left(190+x)
+  turtle.penup()
+  turtle.setpos(0,0)
+  turtle.down()
+  for x in range(100):
+    turtle.forward(x)
+    turtle.left(190-x)
+    turtle.forward(x)
+    turtle.left(130+x)
+elif potato == 4:
+  for x in range(1000):
+    turtle.forward(x)
+    turtle.left(90-x)
+    turtle.forward(x)
+    turtle.left(90+x)
+elif potato == 5:
+  for x in range(1000):
+    turtle.forward(x)
+    turtle.left(90-x/10)
+    turtle.forward(x)
+    turtle.left(90+x/10)
+elif potato == 6:
+  turtle.penup()
+  turtle.setpos(0,65)
+  turtle.down()
+  turtle.color("orange")
+  for i in range(500):
+    turtle.forward (i)
+    turtle.left(91)
+  turtle.penup()
+  turtle.setpos(0,65)
+  turtle.down()
+  for i in range(500):
+    turtle.forward (i)
+    turtle.left(89)
+  turtle.color("red")
+  turtle.penup()
+  turtle.setpos(0,0)
+  turtle.down()
+  for i in range(200):
+    turtle.forward (i)
+    turtle.left(i)
+  turtle.penup()
+  turtle.setpos(0,65)
+else:
+  time.sleep(3)
+  print("You suck")  
