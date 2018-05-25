@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<body>
+<canvas id="digitalClock" width="400" height="200" style="background:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBHfu4ojsjbGXStB22gAdHuDRRtobAAmTJ6X9oTD-YboilQoFZ')">
+</canvas>
+<script>
+
+// enter Javascript here
+var canvas = document.getElementById("digitalClock");
+var pen = canvas.getContext("2d");
+
+setInterval(drawTime,1000);
+
+function drawTime() {
+  var now = new Date();
+  var hour = now.getHours();
+  var minute = now.getMinutes();
+  // puts zero in front of number if it's 1-9
+  minute = minute>9 ? minute: "0" + minute
+  var second = now.getSeconds();
+  second = second>9 ? second: "0" + second
+  var year = now.getFullYear();
+  var monthNum = now.getMonth();
+  var dayNum = now.getDay();
+  var date = now.getDate();
+  var monthString;
+  var dayString;
+  
+  // list of months and days
+  var months = ["Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec"]
+  var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+  monthString = months[monthNum];
+  dayString = days[dayNum];
+  var a = ""
+  
+  // get the hour
+  hour = hour%24;
+  // get am or pm
+  if(hour>11) {
+    a = "pm"
+  } 
+  else {
+    a = "am"
+  }
+  // write the font
+  pen.beginPath();
+  pen.font = "75px Times New Roman";
+  pen.fillStyle = "#012359";
+  // clear the screen
+  pen.clearRect(0,0,400,200);
+  // 
+  pen.fillText(hour.toString()+":"+minute.toString()+":"+second.toString()+" "+a,10,100)
+  
+  // get the year
+  pen.beginPath();
+  pen.font = "25px Arial";
+  pen.fillStyle = "lightgreen";
+  pen.fillText(dayString+" "+monthString+" "+date+", "+year.toString(),60,150)
+}
+
+drawTime(pen);
+
+</script>
+  
+</body>
+</html>
