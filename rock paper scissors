@@ -1,0 +1,54 @@
+
+import random
+
+
+print('-'*40)
+print('LETS PLAY ROCK, PAPER, SCISSORS')
+print('-'*40)
+
+choices = ['rock', 'paper', 'scissors']
+computer = random.choice(choices) #prints random choice
+
+player=False
+userscore = 0
+compscore = 0
+compscore+=1
+userscore+=1
+while player==False:
+  player = input('\nchoose rock, paper, or scissors:\n' )
+  
+  if player==computer:
+    print('TIE')
+    
+  elif player=='rock':                              #controls rock
+    if computer=='paper':
+      print('you lose! ')
+      compscore+=1
+
+    else:
+      print('you win!  ')
+      userscore = 0
+  elif player=='paper':                              #controls paper
+    if computer=='scissors':
+      print('you lose! ')
+      compscore+=1
+
+    else:
+      print('you win! ')
+      userscore = 0
+  elif player=='scissors':                              #controls scissors
+    if computer=='rock':
+      print('you lose! ')
+      compscore+=1
+
+    else:
+      print('you win!  ')
+      userscore = 0
+  else:
+    print('not a valid input, check your spelling!')
+  print('score is compuer:', compscore , 'player:', userscore)  
+    
+    
+  computer = random.choice(choices)
+  player=False
+
