@@ -1,0 +1,178 @@
+// html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <canvas id = 'snek' width = "400" height="400"> </canvas>
+    <script src="index.js"></script>
+  </body>
+</html>
+// html
+
+window.onload=function(){
+  canvas = document.getElementById('snek');
+  pen = canvas.getContext('2d');
+  document.addEventListener('keydown',keyPushed);
+  // set interval; fps
+  setInterval(game,1000/10);
+  
+};
+
+// these r all global vars so dont put var
+
+// player x and y pos
+player_x = 10;
+player_y = 10;
+
+// grid size
+gridSize = 20;
+tileCount = 20;
+
+
+
+
+//score
+score = 0;
+
+
+
+
+
+
+
+//player direction
+x_speed = 0;
+y_speed = 0;
+
+//watermellon x and y
+watermellon_x=15;
+watermellon_y=15;
+
+//player tail and trail
+trail = [];
+//starting # of peices
+tail = 5;
+lives = 5;
+
+//all logic goes here lol
+function game(){
+  //update player pos each frame
+  player_x+=x_speed;
+  player_y+=y_speed;
+  
+  //insert the boundries
+  if(player_x < 0) {
+    lives-=1;
+    player_x = player_y = 10;
+    x_speed = y_speed = 0;
+  }
+  if (player_x > tileCount - 1) {
+    lives-=1;
+    player_x = player_y = 10;
+    x_speed = y_speed = 0;
+  }
+    if(player_y < 0) {
+    lives-=1;
+    player_x = player_y = 10;
+    x_speed = y_speed = 0;
+  }
+  if (player_y > tileCount - 1) {
+    lives-=1;
+    player_x = player_y = 10;
+    x_speed = y_speed = 0;
+  }
+  
+  
+  //draw black br
+  pen.fillStyle = 'black';
+  pen.fillRect(0,0,canvas.width,canvas.height);
+  
+  // change player color
+  pen.fillStyle="orange";
+  
+  //draw snake player here
+  for (var i = 0;i<trail.length;i++){
+    pen.fillRect(trail[i].x*gridSize, trail[i].y*gridSize,gridSize-2,gridSize-2);
+    if (trail[i].x==player_x && trail[i].y==player_y) {
+      tail = 5;
+      
+      if (x_speed !== 0 || y_speed !==0){
+        lives -= 1;
+       
+        
+         
+      }
+    }
+  }
+  
+
+    
+  //add to the snake here
+  trail.push({x:player_x,y:player_y});
+  while(trail.length>tail) {
+    trail.shift();
+    
+  } 
+  // detect collision of watermellon
+  if(watermellon_x == player_x && watermellon_y == player_y) {
+    tail++;
+    watermellon_x = Math.floor(Math.random()*tileCount);
+    watermellon_y = Math.floor(Math.random()*tileCount);
+    score += 10;
+  }
+  
+  //draw watermellon pos
+  pen.fillStyle = 'green';
+  pen.fillRect(watermellon_x*gridSize,watermellon_y*gridSize,gridSize,gridSize);
+  
+  
+  pen.font = '15px arial';
+  pen.fillStyle = 'white';
+  pen.fillText('lives--> '+lives,20,20);
+  
+  pen.font = '15 Atlantico';
+  pen.fillStyle = 'white';
+  pen.fillText('score: '+score,20,40);
+  
+  
+  if (lives <= 0){
+    pen.fillStyle="black";
+    pen.fillRect(0,0,canvas.width,canvas.height);
+    pen.font = '30px Beyno';
+    pen.fillStyle = 'white';
+    pen.fillText('GAME OVER',100,200);
+    pen.fillText('TOTAL SCORE: '+score,100,300);
+  } 
+
+}
+
+  
+
+
+
+
+function keyPushed(evt){
+  switch(evt.keyCode){
+    case 37: //left arrow
+    x_speed = -1;
+    y_speed = 0;
+      break;
+    case 38: //up arrow
+    x_speed = 0;
+    y_speed = -1;
+      break;
+    case 39: //right arrow
+    x_speed = 1;
+    y_speed = 0;
+      break;
+    case 40: //down arrow
+    x_speed = 0;
+    y_speed = 1;
+      break;
+  } 
+}
