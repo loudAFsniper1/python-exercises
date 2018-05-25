@@ -1,0 +1,26 @@
+import math
+a = float(input('total cost?'))
+b = float(input('Money given?'))
+
+change = b - a
+
+print('Change: ', change)
+
+do = 1.00
+qu = .25
+d = .10
+n = .05
+p = .01
+
+
+
+print( change//1.00, 'dollar(s)')
+change = change%1.00
+print( change//.25,'quarter(s) ')
+change = change%.25
+print( change//.10,'dime(s)')
+change = change%.10
+print( change//.05,'nickel(s)')
+change = change%.05
+print( math.ceil(change/.01),'pennie (s)')
+
