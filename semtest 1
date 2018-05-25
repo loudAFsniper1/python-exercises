@@ -1,0 +1,15 @@
+a = int(input())
+b = int(input()) 
+c = int(input())
+print('\n')
+
+if c**2 < a**2 + b**2:
+  print('Answer:\nAcute')
+  
+  
+if c**2 == a**2 + b**2:
+  print('Answer:\nRight')
+  
+  
+if c**2 > a**2 + b**2:
+  print('Answer:\nObtuse')
